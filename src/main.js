@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import VueRouter from 'vue-router'
+import 'video.js/dist/video-js.css'
 
 Vue.config.productionTip = false
 Vue.use(VueRouter)
