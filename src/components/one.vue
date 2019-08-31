@@ -9,7 +9,7 @@
       <div class="right-wrapper">
         <ul class="item-wrapper">
           <li class="item" v-for="(value, key, index) in weatherData" :key='key'>
-            <div class='icon-wrapper'>
+            <div class='icon-wrapper' :class="['icon-' + index]">
             </div>
             <div class='detail'>
                 <p class='value'>
@@ -131,7 +131,18 @@ export default {
               width: percentage(62/160);
               padding-top: percentage(62/160);
               .transY;
-              background:#757E69;
+            }
+            .icon-0{
+              background: url(../images/temperature.png) no-repeat center / 85% 85%;
+            }
+            .icon-1{
+              background: url(../images/wind.png) no-repeat center / 85% 85%;
+            }
+            .icon-2{
+              background: url(../images/quality.png) no-repeat center / 85% 85%;
+            }
+            .icon-3{
+              background: url(../images/noise.png) no-repeat center / 85% 85%;
             }
             .detail{
               width: percentage(98/160);

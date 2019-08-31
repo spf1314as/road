@@ -18,8 +18,8 @@ const router = new VueRouter({
       component: _ => import('./components/one.vue')
     },
     {
-      path: '/person',
-      name: 'person',
+      path: '/traffic',
+      name: 'traffic',
       component: _ => import('./components/weather.vue')
     },{
       path: '/video',
