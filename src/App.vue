@@ -3,21 +3,14 @@
     <!-- <img src="./assets/logo.png"> -->
     <!-- <HelloWorld/> -->
     <!-- <Weather/> -->
-    <One/>
-
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld,
-    Weather: _ => import('./components/weather.vue'),
-    One: _ => import('./components/one')
-  }
+  name: 'App'
 }
 </script>
 
