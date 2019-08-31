@@ -8,14 +8,14 @@
       <!-- 右侧四个 -->
       <div class="right-wrapper">
         <ul class="item-wrapper">
-          <li class="item" v-for="item in 4" :key='item'>
+          <li class="item" v-for="(value, key, index) in weatherData" :key='key'>
             <div class='icon-wrapper'>
             </div>
             <div class='detail'>
                 <p class='value'>
-                  239
+                  {{value}}
                 </p>
-                <p class="text" v-html="text[item - 1]"></p>
+                <p class="text" v-html="text[index]"></p>
             </div>
           </li>
         </ul>
@@ -32,6 +32,8 @@
 </template>
 
 <script>
+import axios  from 'axios'
+
 const text = [
   '温&nbsp;&nbsp;度',
   '风&nbsp;&nbsp;速',
@@ -42,8 +44,26 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-      text
+      text,
+      weatherData: {
+        temperature: 50,
+        wind: 12,
+        quality: 330,
+        noice: 50,
+      }
     }
+  },
+  methods: {
+    getData () {
+      let url = 'http://china.eco-counter-tools.com/api/aladdin/1.0.0/languages'
+      axios.get(url).then(res => {
+        let {data} = res
+        console.log(data)
+      }).catch(_ => console.log(_))
+    }
+  },
+  mounted () {
+    // this.getData()
   }
 }
 </script>
