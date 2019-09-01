@@ -12,9 +12,9 @@
       </video>
     </div>
     <ul class="video-list" >
-      <li class="item" v-for="item in 6" :key="item" @click="play(index)">
-        <div class="label">
-          {{item}} 这是地名
+      <li class="item" v-for="(item, index) in videoList" :key="index" @click="play(index)">
+        <div class="label" :class="{active: currentIndex === index}">
+          {{index + 1}} 这是地名
         </div>
       </li>
     </ul>
@@ -27,11 +27,25 @@ import videojs from 'video.js'
 import 'video.js/dist/lang/zh-CN.js' */
 import video_zhCN from 'video.js/dist/lang/zh-CN.json'
 videojs.addLanguage('zh-CN', video_zhCN);
+const videoList = [
+  {
+    src: require('../video/1.mp4'),
+    type: 'video/mp4',
+    poster: require('../video/1.png')
+  },
+  {
+    src: require('../video/2.mp4'),
+    type: 'video/mp4',
+    poster: require('../video/2.png')
+  },
+]
 export default {
   name: 'videoPage',
   data () {
     return {
-      player: null
+      player: null,
+      videoList,
+      currentIndex: 0
     }
   },
   methods: {
@@ -40,18 +54,17 @@ export default {
       self.player = videojs(this.$refs.videoPlayer, {
         autoplay: 'play',
         controls: true,
-        loop: true,
+        loop: false,
         muted: true,
         preload: 'auto',
 				sources: [
-					{
-					 src: require('../video/1.mp4'),
-           type: 'video/mp4',
-           poster: require('../video/1.png')
-					}
+          this.videoList[0] || {}
 				]
       }, function onPlayerReady() {
         videojs.log('videojs ready')
+        this.on('ended', function() {
+          self.play(++self.currentIndex)
+        })
         setTimeout(_ => {
           this.volume(0.2)
         }, 1 * 1000)
@@ -60,14 +73,14 @@ export default {
     /**
      * data = {src: .mp4, type: video/mp4, poster: .jpg}
      */
-    play () {
-      this.player.src({
-          src: require('../video/2.mp4'),
-          type: 'video/mp4',
-          poster: require('../video/2.png')
-				})
+    play (index) {
+      if (index >= this.videoList.length) {
+        index = 0
+      }
+      this.player.src(this.videoList[index])
       this.player.ready(_ => {
         this.player.play()
+        this.currentIndex = index
       })
       // this.player.posterImage.setSrc('xxx.jpg')
       // this.player.play()
@@ -133,6 +146,10 @@ export default {
       background: white;
       font-size: 32px;
       text-align: center;
+      cursor: pointer;
+    }
+    .active {
+      background: rgb(160, 158, 155);
     }
   }
 }
