@@ -22,22 +22,24 @@
 </template>
 
 <script>
+//监控视频播放页面
 import videojs from 'video.js'
 /* 不能直接引入js，否则会报错：videojs is not defined
 import 'video.js/dist/lang/zh-CN.js' */
 import video_zhCN from 'video.js/dist/lang/zh-CN.json'
 videojs.addLanguage('zh-CN', video_zhCN);
 const videoList = [
+  // 每个要播放的视频是一个对象
   {
-    src: require('../video/1.mp4'),
-    type: 'video/mp4',
-    poster: require('../video/1.png')
+    src: require('../video/1.mp4'),// 视频地址
+    type: 'video/mp4', // 视频格式
+    poster: require('../video/1.png') // 播放视频的封面
   },
   {
     src: require('../video/2.mp4'),
     type: 'video/mp4',
     poster: require('../video/2.png')
-  },
+  }
 ]
 export default {
   name: 'videoPage',
@@ -52,10 +54,10 @@ export default {
     init () {
       let self = this
       self.player = videojs(this.$refs.videoPlayer, {
-        autoplay: 'play',
+        autoplay: 'play', // 是否自动播放  true or false
         controls: true,
         loop: false,
-        muted: true,
+        muted: true, // 是否静音播放
         preload: 'auto',
 				sources: [
           this.videoList[0] || {}

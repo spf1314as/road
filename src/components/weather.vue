@@ -37,6 +37,7 @@
 </template>
 
 <script>
+//首页天气状况页面
 import axios  from 'axios'
 
 const text = [
@@ -60,10 +61,12 @@ export default {
   },
   methods: {
     getData () {
+      //下面这个url是接受跨域请求的，可以拉到数据，这个网站其他的url都有限制
       let url = 'http://china.eco-counter-tools.com/api/aladdin/1.0.0/languages'
       axios.get(url).then(res => {
         let {data} = res
         console.log(data)
+        // this.weatherData = data   data 为获取到的天气信息
       }).catch(_ => console.log(_))
     },
     go (flag) {
@@ -71,12 +74,12 @@ export default {
     }
   },
   mounted () {
-    // this.getData()
+
+    // this.getData() 获取天气信息
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang = "less">
   .transY () {
     position: absolute;
