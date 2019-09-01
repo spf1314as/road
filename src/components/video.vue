@@ -45,9 +45,9 @@ export default {
         preload: 'auto',
 				sources: [
 					{
-					 src: '//vjs.zencdn.net/v/oceans.mp4',
+					 src: require('../video/1.mp4'),
            type: 'video/mp4',
-           poster: '//vjs.zencdn.net/v/oceans.png'
+           poster: require('../video/1.png')
 					}
 				]
       }, function onPlayerReady() {
@@ -60,11 +60,17 @@ export default {
     /**
      * data = {src: .mp4, type: video/mp4, poster: .jpg}
      */
-    play (data) {
-      this.player.src(data)
-      this.player.load(data)
+    play () {
+      this.player.src({
+          src: require('../video/2.mp4'),
+          type: 'video/mp4',
+          poster: require('../video/2.png')
+				})
+      this.player.ready(_ => {
+        this.player.play()
+      })
       // this.player.posterImage.setSrc('xxx.jpg')
-      this.player.play()
+      // this.player.play()
       // myPlayer.poster('http://example.com/myImage.jpg');
       // myPlayer.src({type: 'video/mp4', src: 'http://www.example.com/path/to/video.mp4'});
       // myPlayer.ready(function() {
@@ -141,6 +147,9 @@ export default {
 .video-js.vjs-4-3{ /* 视频占满容器高度 */
   height: 100%;
   background-color: #161616;
+}
+#video-container .vjs-fluid{
+  padding-top: 0 !important;
 }
 .vjs-poster{
   background-color: #161616;
