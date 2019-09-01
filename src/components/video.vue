@@ -61,6 +61,7 @@ export default {
         videojs.log('ready player')
       })
       this.player = player
+      document.getElementById('app').scrollTop = 1
     },
     /**
      * data = {src: .mp4, type: video/mp4}
@@ -96,11 +97,13 @@ export default {
 
   },
   mounted () {
+
     document.getElementById('app').addEventListener('scroll', this.autoPlay)
     // document.getElementById('app').addEventListener('scroll', _ => {
     //   console.log(document.getElementById('app').scrollTop)
     //   console.log('app')
     // })
+
     this.init()
   }
 }

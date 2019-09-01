@@ -16,12 +16,12 @@ const router = new VueRouter({
     {
       path: '/weather',
       name: 'weather',
-      component: _ => import('./components/one.vue')
+      component: _ => import('./components/weather.vue')
     },
     {
       path: '/traffic',
       name: 'traffic',
-      component: _ => import('./components/weather.vue')
+      component: _ => import('./components/traffic.vue')
     },{
       path: '/video',
       name: 'video',
