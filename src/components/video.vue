@@ -1,7 +1,7 @@
 <template>
   <div class="video-page">
     <div id="video-container">
-      <video id="myVideo" class="video-js vjs-big-play-centered vjs-fluid">
+      <video  ref="videoPlayer" class="video-js vjs-big-play-centered vjs-fluid">
         <p class="vjs-no-js">
           To view this video please enable JavaScript, and consider upgrading to a
           web browser that
@@ -12,12 +12,12 @@
       </video>
     </div>
     <ul class="video-list" >
-      <li class="item" v-for="item in 6" :key="item" @click="autoPlay">
-        {{item}}
+      <li class="item" v-for="item in 6" :key="item" @click="play(index)">
+        <div class="label">
+          {{item}} 这是地名
+        </div>
       </li>
     </ul>
-    <button id="btn" @click="autoPlay">
-    </button>
   </div>
 </template>
 
@@ -37,49 +37,46 @@ export default {
   methods: {
     init () {
       let self = this
-      var player = videojs(document.getElementById('myVideo'), {
-        autoplay: true,
+      self.player = videojs(this.$refs.videoPlayer, {
+        autoplay: 'play',
         controls: true,
         loop: true,
+        muted: true,
         preload: 'auto',
-        // poster: 'xxx', // 视频封面图地址
-        sources:[ // 视频源
-          {
-            src: '//vjs.zencdn.net/v/oceans.mp4',
-            type: 'video/mp4',
-            poster: '//vjs.zencdn.net/v/oceans.png'
-          }
-        ]
-        }, function onPlayerReady () {
-        // this.play()
-        // self.$nextTick(_ => {
-        //   document.getElementById('app').scrollTop = 1
-        // })
-        // setTimeout(_ => {
-        //   document.getElementById('app').scrollTop = 2
-        // }, 1 * 1000)
-        videojs.log('ready player')
+				sources: [
+					{
+					 src: require('../video/1.mp4'),
+           type: 'video/mp4',
+           poster: require('../video/1.png')
+					}
+				]
+      }, function onPlayerReady() {
+        videojs.log('videojs ready')
+        setTimeout(_ => {
+          this.volume(0.2)
+        }, 1 * 1000)
       })
-      this.player = player
-      document.getElementById('app').scrollTop = 1
     },
     /**
-     * data = {src: .mp4, type: video/mp4}
+     * data = {src: .mp4, type: video/mp4, poster: .jpg}
      */
-    play (data) {
-      this.player.src(data)
-      this.player.load(data)
-      this.player.posterImage.setSrc('xxx.jpg');
-      this.player.play()
+    play () {
+      this.player.src({
+          src: require('../video/2.mp4'),
+          type: 'video/mp4',
+          poster: require('../video/2.png')
+				})
+      this.player.ready(_ => {
+        this.player.play()
+      })
+      // this.player.posterImage.setSrc('xxx.jpg')
+      // this.player.play()
+      // myPlayer.poster('http://example.com/myImage.jpg');
+      // myPlayer.src({type: 'video/mp4', src: 'http://www.example.com/path/to/video.mp4'});
+      // myPlayer.ready(function() {
+      //   myPlayer.play();
+      // });
     },
-    autoPlay () {
-      let app = document.getElementById('app')
-      console.log('click')
-      console.log(app.scrollTop)
-      this.player.play()
-      console.log('4444')
-      // app.removeEventListener('scroll', this.autoPlay)
-    }
   // var data = {
   //   src: 'xxx.mp4',
   //   type: 'video/mp4'
@@ -97,27 +94,18 @@ export default {
 
   },
   mounted () {
-
-    document.getElementById('app').addEventListener('scroll', this.autoPlay)
-    // document.getElementById('app').addEventListener('scroll', _ => {
-    //   console.log(document.getElementById('app').scrollTop)
-    //   console.log('app')
-    // })
-
     this.init()
+  },
+  destroyed () {
+    // 销毁播放器
+    this.player.dispose()
   }
 }
 </script>
 
 <style lang = "less">
-#btn{
-  width: 1px;
-  height:1px;
-  /* opacity: 0; */
-
-}
 #video-container{
-  height: 60vh;
+  height: 80vh;
   background: red;
 }
 .video-list{
@@ -125,16 +113,27 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 40vh;
+  height: 20vh;
   .item{
     width: percentage(6/10);
     height: 100%;
     box-sizing: border-box;
     border-right: 2px solid white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgb(161, 173, 161);
     &:last-child{
       border:none;
     }
-    background: green;
+    .label{
+      padding: 5px;
+      border: 1px solid white;
+      border-radius: 5px;
+      background: white;
+      font-size: 32px;
+      text-align: center;
+    }
   }
 }
 .video-js{
@@ -148,6 +147,9 @@ export default {
 .video-js.vjs-4-3{ /* 视频占满容器高度 */
   height: 100%;
   background-color: #161616;
+}
+#video-container .vjs-fluid{
+  padding-top: 0 !important;
 }
 .vjs-poster{
   background-color: #161616;
