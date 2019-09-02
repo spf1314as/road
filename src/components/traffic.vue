@@ -109,7 +109,7 @@ const text =
           }
         };
         this.drawLine(this.data);
-        console.log(data)
+        console.log(res.data)
       }).catch(_ => console.log(_))
     },
     drawLine (oData) {
